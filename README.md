@@ -110,16 +110,16 @@ The Persons, Accounts and Transactions Management System (PAT) is a modern web a
 ## Screenshots
 
 ### Dashboard
-![Dashboard](Documentation/screenshots/Dashboard.jpg)
+![Dashboard](Documentation/Screenshots/Dashboard.jpg)
 
 ### Person Management
-![Persons List](Documentation/screenshots/persons-list.jpg)
+![Persons List](Documentation/Screenshots/persons-list.jpg)
 
 ### Account Details
-![Account Details](Documentation/screenshots/account-details.jpg)
+![Account Details](Documentation/Screenshots/account-details.jpg)
 
 ### Transaction Management
-![Transactions](Documentation/screenshots/transactions.jpg)
+![Transactions](Documentation/Screenshots/transactions.jpg)
 
 ---
 
