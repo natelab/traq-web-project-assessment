@@ -2,9 +2,7 @@
 
 A new ASP.NET Core MVC web solution for managing people, their accounts, and financial transactions with secure authentication and business logic validation.
 
-![.NET](https://img.shields.io/badge/.NET-6.0%20%7C%207.0-512BD4?style=flat&logo=dotnet)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)
+
 
 ---
 
