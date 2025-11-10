@@ -1,0 +1,169 @@
+﻿@model traq_web_project_assessment.ViewModels.SearchViewModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1><i class="fas fa-search text-primary"></i> Search Records</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-filter"></i> Search Criteria</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Search" method="get">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="SearchType" class="form-label">Search By</label>
+                            <select asp-for="SearchType" class="form-select">
+                                <option value="Surname">Surname</option>
+                                <option value="IdNumber">ID Number</option>
+                                <option value="AccountNumber">Account Number</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="SearchTerm" class="form-label">Search Term</label>
+                            <input asp-for="SearchTerm" class="form-control" placeholder="Enter search term..." />
+                        </div>
+
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SearchTerm))
+{
+    <!-- Person Results -->
+    @if (Model.Persons.Any())
+    {
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-users"></i> Person Results (@Model.Persons.Count)</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Accounts</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var person in Model.Persons)
+                            {
+                                <tr>
+                                    <td>@person.IdNumber</td>
+                                    <td><strong>@person.FullName</strong></td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(person.Email))
+                                        {
+                                            <a href="mailto:@person.Email">@person.Email</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/A</span>
+                                        }
+                                    </td>
+                                    <td>@(person.PhoneNumber ?? "N/A")</td>
+                                    <td><span class="badge bg-info">@person.AccountCount</span></td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@person.Id" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Account Results -->
+    @if (Model.Accounts.Any())
+    {
+        <div class="card shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-wallet"></i> Account Results (@Model.Accounts.Count)</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Account Name</th>
+                                <th>Person</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var account in Model.Accounts)
+                            {
+                                <tr>
+                                    <td><strong>@account.AccountNumber</strong></td>
+                                    <td>@account.AccountName</td>
+                                    <td>@account.PersonName</td>
+                                    <td>
+                                        <strong class="@(account.OutstandingBalance >= 0 ? "text-success" : "text-danger")">
+                                            @account.OutstandingBalance.ToString("C2")
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge @(account.StatusName == "Open" ? "bg-success" : "bg-secondary")">
+                                            @account.StatusName
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Accounts" asp-action="Details" asp-route-id="@account.Id" 
+                                           class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- No Results -->
+    @if (!Model.Persons.Any() && !Model.Accounts.Any())
+    {
+        <div class="alert alert-warning" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> 
+            <strong>No results found</strong> for "<strong>@Model.SearchTerm</strong>" in @Model.SearchType.
+            <br />
+            <small>Try a different search term or search type.</small>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        <i class="fas fa-info-circle"></i> 
+        Enter a search term above to find persons or accounts.
+    </div>
+}

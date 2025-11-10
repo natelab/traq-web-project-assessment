@@ -1,0 +1,444 @@
+/* 
+   The colours I am using and their codes
+   Charcoal: #1C1C1E
+   Dark Pastel Blue: #2F527A
+   Lighter Pastel Blue: #9CB8D9
+   Light Grey: #F5F5F7
+   White: #FFFFFF
+    */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #F5F5F7;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/*Nav Bar*/
+.navbar {
+    background-color: #1C1C1E !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: #FFFFFF !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+    .navbar-brand:hover {
+        color: #9CB8D9 !important;
+    }
+
+.nav-link {
+    color: #F5F5F7 !important;
+    transition: color 0.3s ease;
+    font-size: 0.9rem !important;
+    font-weight: 400 !important;
+}
+
+    .nav-link:hover {
+        color: #9CB8D9 !important; /*Blue colour for when hovering on the links in the nav bar*/
+    }
+
+.navbar-dark .navbar-toggler {
+    border-color: #2F527A;
+}
+
+.dropdown-menu {
+    background-color: #1C1C1E;
+    border: 1px solid #2F527A;
+    border-radius: 10px;
+}
+
+.dropdown-item {
+    color: #F5F5F7;
+}
+
+    .dropdown-item:hover {
+        background-color: #2F527A;
+        color: #FFFFFF;
+    }
+
+/*Cards and Containers*/
+.card {
+    border-radius: 15px !important;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: #FFFFFF;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    border-bottom: 2px solid #F5F5F7;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Card Header Colors */
+.card-header.bg-primary {
+    background-color: #2F527A !important;
+    color: #FFFFFF !important;
+}
+
+.card-header.bg-success {
+    background-color: #00B849 !important;
+    color: #FFFFFF !important;
+}
+
+.card-header.bg-info {
+    background-color: #1C1C1E !important;
+    color: #FFFFFF !important;
+}
+
+.card-header.bg-warning {
+    background-color: #00B849 !important;
+    color: #FFFFFF !important;
+}
+
+.card-header.bg-danger {
+    background-color: #1C1C1E !important;
+    color: #FFFFFF !important;
+}
+
+.card-header.bg-dark {
+    background-color: #1C1C1E !important;
+    color: #FFFFFF !important;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px !important;
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #2F527A !important;
+    border-color: #2F527A !important;
+    color: #FFFFFF !important;
+}
+
+    .btn-primary:hover {
+        background-color: #9CB8D9 !important;
+        border-color: #9CB8D9 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 184, 73, 0.3);
+    }
+
+.btn-secondary {
+    background-color: #2F527A !important;
+    border-color: #2F527A !important;
+    color: #FFFFFF !important;
+}
+
+    .btn-secondary:hover {
+        background-color: #9CB8D9 !important;
+        border-color: #9CB8D9 !important;
+        transform: translateY(-2px);
+    }
+
+.btn-success {
+    background-color: #2F527A !important;
+    border-color: #2F527A !important;
+}
+
+    .btn-success:hover {
+        background-color: #009a3d !important;
+        transform: translateY(-2px);
+    }
+
+.btn-info {
+    background-color: #1C1C1E !important;
+    border-color: #1C1C1E !important;
+}
+
+    .btn-info:hover {
+        background-color: #2F527A !important;
+        border-color: #2F527A !important;
+        transform: translateY(-2px);
+    }
+
+.btn-warning {
+    background-color: #2F527A !important;
+    border-color: #2F527A !important;
+    color: #FFFFFF !important;
+}
+
+    .btn-warning:hover {
+        background-color: #009a3d !important;
+        transform: translateY(-2px);
+    }
+
+.btn-danger {
+    background-color: #d32f2f !important;
+    border-color: #d32f2f !important;
+}
+
+    .btn-danger:hover {
+        background-color: #b71c1c !important;
+        transform: translateY(-2px);
+    }
+
+/*Forms*/
+.form-control,
+.form-select {
+    border-radius: 10px !important;
+    border: 1px solid #e0e0e0;
+    padding: 0.6rem 1rem;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #2F527A !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 184, 73, 0.15) !important;
+    }
+
+.form-label {
+    color: #1C1C1E;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/*Alerts*/
+.alert {
+    border-radius: 10px !important;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2F527A;
+    border-left: 4px solid #2F527A;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border-left: 4px solid #d32f2f;
+}
+
+.alert-info {
+    background-color: #e3f2fd;
+    color: #1C1C1E;
+    border-left: 4px solid #1C1C1E;
+}
+
+.alert-warning {
+    background-color: #fff8e1;
+    color: #f57c00;
+    border-left: 4px solid #f57c00;
+}
+
+/* Tables */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+}
+
+    .table thead {
+        background-color: #F5F5F7;
+        color: #1C1C1E;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #f0fdf4;
+    cursor: pointer;
+}
+
+.table-bordered {
+    border: 1px solid #e0e0e0;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    padding: 1rem;
+}
+
+/* Badges*/
+.badge {
+    border-radius: 8px !important;
+    padding: 0.4rem 0.8rem;
+    font-weight: 500;
+}
+
+.bg-success {
+    background-color: #2F527A !important;
+}
+
+.bg-info {
+    background-color: #1C1C1E !important;
+}
+
+.bg-primary {
+    background-color: #2F527A !important;
+}
+
+/* Dashboard Statistics Cards*/
+.border-left-primary {
+    border-left: 0.4rem solid #00B849 !important;
+    border-radius: 15px !important;
+}
+
+.border-left-success {
+    border-left: 0.4rem solid #00B849 !important;
+    border-radius: 15px !important;
+}
+
+.border-left-info {
+    border-left: 0.4rem solid #1C1C1E !important;
+    border-radius: 15px !important;
+}
+
+.border-left-warning {
+    border-left: 0.4rem solid #00B849 !important;
+    border-radius: 15px !important;
+}
+
+.text-primary {
+    color: #00B849 !important;
+}
+
+.text-success {
+    color: #00B849 !important;
+}
+
+.text-gray-300 {
+    color: #e0e0e0 !important;
+}
+
+.text-gray-800 {
+    color: #1C1C1E !important;
+}
+
+/* List Groups*/
+.list-group-item {
+    border-radius: 10px !important;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+    .list-group-item:hover {
+        background-color: #f0fdf4;
+        border-color: #00B849;
+        transform: translateX(5px);
+    }
+
+/* Jumbotron */
+.jumbotron {
+    background-color: #FFFFFF !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer */
+.footer {
+    background-color: #1C1C1E;
+    color: #F5F5F7;
+    border-top: 3px solid #2F527A;
+    padding: 1rem 0;
+}
+
+    .footer a {
+        color: #2F527A;
+        text-decoration: none;
+    }
+
+        .footer a:hover {
+            color: #FFFFFF;
+        }
+
+/* Shadows & Elevation*/
+.shadow {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Text Colors */
+.text-teal {
+    color: #00B849 !important;
+}
+
+.text-charcoal {
+    color: #1C1C1E !important;
+}
+
+/* Background Colors*/
+.bg-light {
+    background-color: #F5F5F7 !important;
+}
+
+.bg-charcoal {
+    background-color: #1C1C1E !important;
+}
+
+.bg-teal {
+    background-color: #2F527A !important;
+}
+
+/*For the transitions to be smooth*/
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Card Hover Effects*/
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+}
+
+/* Custom Border Radius */
+.rounded-lg {
+    border-radius: 15px !important;
+}
+
+/* Input Groups */
+.input-group-text {
+    background-color: #F5F5F7;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px 0 0 10px !important;
+    color: #1C1C1E;
+}
+
+/*  Modal Improvements */
+.modal-content {
+    border-radius: 15px !important;
+    border: none;
+}
+
+.modal-header {
+    background-color: #2F527A;
+    color: #FFFFFF;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.modal-footer {
+    border-top: 1px solid #F5F5F7;
+}

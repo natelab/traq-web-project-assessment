@@ -1,0 +1,204 @@
+﻿@model traq_web_project_assessment.ViewModels.AccountDetailsViewModel
+
+@{
+    ViewData["Title"] = "Account Details";
+}
+
+<div class="container" style="background-color: #e9ecef; padding: 40px; min-height: 100vh; border-radius: 15px;">
+    <div class="mb-4">
+        <a asp-controller="Persons" asp-action="Details" asp-route-id="@Model.Account.PersonId" class="btn btn-secondary" style="border-radius: 10px;">
+            <i class="fas fa-arrow-left"></i> Back to Person
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header text-white" style="background-color: #2F527A; border-radius: 15px 15px 0 0;">
+                    <h5 class="mb-0"><i class="fas fa-wallet"></i> Account Information</h5>
+                </div>
+                <div class="card-body" style="padding: 1.5rem;">
+                    <h4 class="mb-3">@Model.Account.AccountName</h4>
+                    
+                    <div class="mb-3">
+                        <strong><i class="fas fa-hashtag" style="color: #2F527A"></i> Account Number:</strong><br />
+                        <span class="text-muted">@Model.Account.AccountNumber</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong><i class="fas fa-user" style="color: #2F527A"></i> Account Holder:</strong><br />
+                        <a asp-controller="Persons" asp-action="Details" asp-route-id="@Model.Account.PersonId" style="color: #2F527A; text-decoration: none;">
+                            @Model.Account.Person.FirstName @Model.Account.Person.Surname
+                        </a>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong><i class="fas fa-info-circle" style="color: #2F527A"></i> Status:</strong><br />
+                        <span class="badge fs-6" style="@(Model.Account.Status.StatusName == "Open" ? "background-color: #2F527A" : "background-color: #6c757d")">
+                            @Model.Account.Status.StatusName
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong><i class="fas fa-money-bill-wave" style="color: #2F527A"></i> Outstanding Balance:</strong><br />
+                        <h3 class="@(Model.Account.OutstandingBalance >= 0 ? "text-success" : "text-danger")">
+                            @Model.Account.OutstandingBalance.ToString("C2")
+                        </h3>
+                    </div>
+
+                    <hr />
+
+                    <div class="mb-3">
+                        <strong><i class="fas fa-chart-line" style="color: #2F527A"></i> Transaction Summary:</strong><br />
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <small class="text-muted">Total Debits:</small><br />
+                                <strong class="text-danger">@Model.TotalDebits.ToString("C2")</strong>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Total Credits:</small><br />
+                                <strong class="text-success">@Model.TotalCredits.ToString("C2")</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-grid gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.Account.Id" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit Account
+                        </a>
+                        
+                        @if (Model.Account.Status.StatusName == "Open")
+                        {
+                            @if (Model.CanClose)
+                            {
+                                <form asp-action="Close" method="post" onsubmit="return confirm('Are you sure you want to close this account?');">
+                                    <input type="hidden" name="id" value="@Model.Account.Id" />
+                                    <button type="submit" class="btn btn-secondary w-100">
+                                        <i class="fas fa-times-circle"></i> Close Account
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" disabled title="Account balance must be zero to close">
+                                    <i class="fas fa-times-circle"></i> Close Account (Balance ≠ 0)
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary" disabled>
+                                <i class="fas fa-check-circle"></i> Account Closed
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #2F527A; border-radius: 15px 15px 0 0;">
+                    <h5 class="mb-0"><i class="fas fa-exchange-alt"></i> Transactions (@Model.Transactions.Count)</h5>
+                    @if (Model.CanAddTransaction)
+                    {
+                        <a asp-controller="Transactions" asp-action="Create" asp-route-accountId="@Model.Account.Id" 
+                           class="btn btn-light btn-sm">
+                            <i class="fas fa-plus"></i> Add Transaction
+                        </a>
+                    }
+                </div>
+                <div class="card-body" style="padding: 1.5rem;">
+                    @if (Model.Transactions.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                        <th>Capture Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var transaction in Model.Transactions)
+                                    {
+                                        <tr>
+                                            <td>@transaction.TransactionDate.ToString("dd MMM yyyy")</td>
+                                            <td>@transaction.Description</td>
+                                            <td>
+                                                @if (transaction.DebitAmount > 0)
+                                                {
+                                                    <strong class="text-danger">@transaction.DebitAmount.ToString("C2")</strong>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (transaction.CreditAmount > 0)
+                                                {
+                                                    <strong class="text-success">@transaction.CreditAmount.ToString("C2")</strong>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <small class="text-muted">@transaction.CaptureDate.ToString("dd MMM yyyy HH:mm")</small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a asp-controller="Transactions" asp-action="Edit" asp-route-id="@transaction.Id" 
+                                                       class="btn btn-sm btn-warning" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a asp-controller="Transactions" asp-action="Delete" asp-route-id="@transaction.Id" 
+                                                       class="btn btn-sm btn-danger" title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td colspan="2"><strong>Totals:</strong></td>
+                                        <td><strong class="text-danger">@Model.TotalDebits.ToString("C2")</strong></td>
+                                        <td><strong class="text-success">@Model.TotalCredits.ToString("C2")</strong></td>
+                                        <td colspan="2">
+                                            <strong>Balance: 
+                                                <span class="@(Model.Account.OutstandingBalance >= 0 ? "text-success" : "text-danger")">
+                                                    @Model.Account.OutstandingBalance.ToString("C2")
+                                                </span>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info" role="alert" style="border-radius: 10px; border-left: 4px solid #2F527A;">
+                            <i class="fas fa-info-circle"></i> No transactions found for this account.
+                            @if (Model.CanAddTransaction)
+                            {
+                                <a asp-controller="Transactions" asp-action="Create" asp-route-accountId="@Model.Account.Id" 
+                                   class="alert-link" style="color: #2F527A;">Create the first transaction</a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

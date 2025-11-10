@@ -1,0 +1,117 @@
+﻿@model traq_web_project_assessment.ViewModels.TransactionViewModel
+
+@{
+    ViewData["Title"] = "Edit Transaction";
+}
+
+<div class="mb-4">
+    <a asp-controller="Accounts" asp-action="Details" asp-route-id="@Model.AccountId" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Account
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> Edit Transaction</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-4" role="alert">
+                    <strong><i class="fas fa-wallet"></i> Account:</strong> @ViewBag.AccountNumber - @ViewBag.AccountName<br />
+                    <strong><i class="fas fa-user"></i> Account Holder:</strong> @ViewBag.PersonName
+                </div>
+
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="AccountId" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="TransactionDate" class="form-label"></label>
+                        <input asp-for="TransactionDate" type="date" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="TransactionDate" class="text-danger"></span>
+                        <small class="form-text text-muted">Transaction date cannot be in the future</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DebitAmount" class="form-label text-danger">
+                                <i class="fas fa-minus-circle"></i> Debit Amount
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">R</span>
+                                <input asp-for="DebitAmount" type="number" step="0.01" class="form-control" id="debitInput" />
+                            </div>
+                            <span asp-validation-for="DebitAmount" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CreditAmount" class="form-label text-success">
+                                <i class="fas fa-plus-circle"></i> Credit Amount
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">R</span>
+                                <input asp-for="CreditAmount" type="number" step="0.01" class="form-control" id="creditInput" />
+                            </div>
+                            <span asp-validation-for="CreditAmount" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Important:</strong> Enter either a Debit OR Credit amount, not both.
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Original Capture Date</label>
+                        <input type="text" class="form-control" value="@Model.CaptureDate.ToString("dd MMM yyyy HH:mm")" disabled readonly />
+                        <small class="form-text text-muted">
+                            <i class="fas fa-info-circle"></i> Capture date will be updated automatically when you save.
+                        </small>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-controller="Accounts" asp-action="Details" asp-route-id="@Model.AccountId"
+                           class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Clear credit when debit is entered
+        document.getElementById('debitInput').addEventListener('input', function() {
+            if (this.value > 0) {
+                document.getElementById('creditInput').value = '0';
+            }
+        });
+
+        // Clear debit when credit is entered
+        document.getElementById('creditInput').addEventListener('input', function() {
+            if (this.value > 0) {
+                document.getElementById('debitInput').value = '0';
+            }
+        });
+    </script>
+}

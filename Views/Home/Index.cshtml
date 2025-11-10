@@ -1,0 +1,243 @@
+﻿@model traq_web_project_assessment.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid" style="background-color: #e9ecef; padding: 40px; min-height: 100vh; border-radius: 15px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-tachometer-alt" style="color: #2F527A"></i> Dashboard</h1>
+        <div>
+            <span class="text-muted">Welcome, <strong>@Context.Session.GetString("FullName")</strong></span>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2" style="border-radius: 15px; border: none; border-left: 0.4rem solid #2F527A; background-color: white;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1" style="color: #2F527A; font-size: 0.7rem;">
+                                Total Persons
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalPersons</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x" style="color: #e0e0e0"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2" style="border-radius: 15px; border: none; border-left: 0.4rem solid #2F527A; background-color: white;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1" style="color: #2F527A; font-size: 0.7rem;">
+                                Total Accounts
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalAccounts</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-wallet fa-2x" style="color: #e0e0e0"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2" style="border-radius: 15px; border: none; border-left: 0.4rem solid #2F527A; background-color: white;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1" style="color: #2F527A; font-size: 0.7rem;">
+                                Total Transactions
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalTransactions</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exchange-alt fa-2x" style="color: #e0e0e0"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2" style="border-radius: 15px; border: none; border-left: 0.4rem solid #2F527A; background-color: white;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1" style="color: #2F527A; font-size: 0.7rem;">
+                                Total Balance
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalBalance.ToString("C2")</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x" style="color: #e0e0e0"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Status Row -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header py-3" style="background-color: white; border-bottom: 1px solid #e0e0e0;">
+                    <h6 class="m-0 font-weight-bold" style="color: #2F527A">
+                        <i class="fas fa-chart-pie"></i> Account Status
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h3 style="color: #2F527A">@Model.OpenAccounts</h3>
+                            <p class="text-muted">Open Accounts</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h3 class="text-secondary">@Model.ClosedAccounts</h3>
+                            <p class="text-muted">Closed Accounts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header py-3" style="background-color: white; border-bottom: 1px solid #e0e0e0;">
+                    <h6 class="m-0 font-weight-bold" style="color: #2F527A">
+                        <i class="fas fa-tasks"></i> Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <a asp-controller="Persons" asp-action="Create" class="btn btn-block mb-2 w-100" style="background-color: #2F527A; color: white; border-radius: 10px;">
+                        <i class="fas fa-user-plus"></i> Add New Person
+                    </a>
+                    <a asp-controller="Persons" asp-action="Index" class="btn btn-block w-100" style="background-color: #2F527A; color: white; border-radius: 10px;">
+                        <i class="fas fa-search"></i> Search Persons & Accounts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+        <!-- Recent Persons -->
+        <div class="col-xl-4 col-lg-6 mb-4">
+            <div class="card shadow h-100" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background-color: white; border-bottom: 1px solid #e0e0e0;">
+                    <h6 class="m-0 font-weight-bold" style="color: #2F527A">
+                        <i class="fas fa-users"></i> Recent Persons
+                    </h6>
+                    <a asp-controller="Persons" asp-action="Index" class="btn btn-sm" style="background-color: #2F527A; color: white;">View All</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentPersons.Any())
+                    {
+                        <div class="list-group">
+                            @foreach (var person in Model.RecentPersons)
+                            {
+                                <a asp-controller="Persons" asp-action="Details" asp-route-id="@person.Id"
+                                   class="list-group-item list-group-item-action" style="border-radius: 10px; margin-bottom: 0.5rem;">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@person.FullName</h6>
+                                        <small class="badge" style="background-color: #2F527A">@person.AccountCount accounts</small>
+                                    </div>
+                                    <small class="text-muted">ID: @person.IdNumber</small>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">No persons found</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Accounts -->
+        <div class="col-xl-4 col-lg-6 mb-4">
+            <div class="card shadow h-100" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header py-3" style="background-color: white; border-bottom: 1px solid #e0e0e0;">
+                    <h6 class="m-0 font-weight-bold" style="color: #2F527A">
+                        <i class="fas fa-wallet"></i> Recent Accounts
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentAccounts.Any())
+                    {
+                        <div class="list-group">
+                            @foreach (var account in Model.RecentAccounts)
+                            {
+                                <a asp-controller="Accounts" asp-action="Details" asp-route-id="@account.Id"
+                                   class="list-group-item list-group-item-action" style="border-radius: 10px; margin-bottom: 0.5rem;">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@account.AccountNumber</h6>
+                                        <small class="badge" style="@(account.StatusName == "Open" ? "background-color: #2F527A" : "background-color: #6c757d")">
+                                            @account.StatusName
+                                        </small>
+                                    </div>
+                                    <p class="mb-1">@account.PersonName</p>
+                                    <small class="text-muted">Balance: @account.OutstandingBalance.ToString("C2")</small>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">No accounts found</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="col-xl-4 col-lg-12 mb-4">
+            <div class="card shadow h-100" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header py-3" style="background-color: white; border-bottom: 1px solid #e0e0e0;">
+                    <h6 class="m-0 font-weight-bold" style="color: #2F527A">
+                        <i class="fas fa-exchange-alt"></i> Recent Transactions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentTransactions.Any())
+                    {
+                        <div class="list-group">
+                            @foreach (var transaction in Model.RecentTransactions)
+                            {
+                                <div class="list-group-item" style="border-radius: 10px; margin-bottom: 0.5rem;">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@transaction.AccountNumber</h6>
+                                        <small class="badge @(transaction.DebitAmount > 0 ? "bg-danger" : "bg-success")">
+                                            @transaction.TransactionType
+                                        </small>
+                                    </div>
+                                    <p class="mb-1">@transaction.PersonName</p>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">@transaction.TransactionDate.ToString("dd MMM yyyy")</small>
+                                        <small class="fw-bold">@transaction.Amount.ToString("C2")</small>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">No transactions found</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

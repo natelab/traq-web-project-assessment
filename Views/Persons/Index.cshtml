@@ -1,0 +1,230 @@
+﻿@model IEnumerable<traq_web_project_assessment.ViewModels.PersonViewModel>
+
+@{
+    ViewData["Title"] = "Persons";
+    var searchType = ViewBag.SearchType as string;
+    var searchTerm = ViewBag.SearchTerm as string;
+    var hasSearch = !string.IsNullOrWhiteSpace(searchTerm);
+}
+
+<div class="container-fluid" style="background-color: #e9ecef; padding: 40px; min-height: 100vh; border-radius: 15px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-users" style="color: #2F527A"></i> Persons</h1>
+        <a asp-action="Create" class="btn" style="background-color: #2F527A; color: white; border-radius: 10px;">
+            <i class="fas fa-user-plus"></i> Create New Person
+        </a>
+    </div>
+
+    <!-- Search Section -->
+    <div class="card shadow mb-4" style="border-radius: 15px; border: none; background-color: white;">
+        <div class="card-header text-white" style="background-color: #2F527A; border-radius: 15px 15px 0 0;">
+            <h5 class="mb-0"><i class="fas fa-search"></i> Search Persons & Accounts</h5>
+        </div>
+        <div class="card-body" style="padding: 2rem;">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <div class="col-md-3 mb-3 mb-md-0">
+                        <label for="searchType" class="form-label">Search By</label>
+                        <select name="searchType" id="searchType" class="form-select">
+                            <option value="Surname" selected="@(searchType == "Surname" || searchType == null)">Surname</option>
+                            <option value="IdNumber" selected="@(searchType == "IdNumber")">ID Number</option>
+                            <option value="AccountNumber" selected="@(searchType == "AccountNumber")">Account Number</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-7 mb-3 mb-md-0">
+                        <label for="searchTerm" class="form-label">Search Term</label>
+                        <input type="text" name="searchTerm" id="searchTerm" class="form-control" 
+                               placeholder="Enter search term..." value="@searchTerm" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label d-none d-md-block">&nbsp;</label>
+                        <button type="submit" class="btn w-100" style="background-color: #2F527A; color: white; border-radius: 10px;">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            @if (hasSearch)
+            {
+                <div class="mt-3">
+                    <a asp-action="Index" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-times"></i> Clear Search
+                    </a>
+                    <span class="text-muted ms-2">
+                        Searching for "<strong>@searchTerm</strong>" in @searchType
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Account Result (if searching by Account Number) -->
+    @if (hasSearch && searchType == "AccountNumber" && ViewBag.SearchedAccount != null)
+    {
+        var account = ViewBag.SearchedAccount as traq_web_project_assessment.Models.Account;
+        
+        <div class="card shadow mb-4" style="border-radius: 15px; border: none; border-left: 0.4rem solid #2F527A; background-color: white;">
+            <div class="card-header text-white" style="background-color: #2F527A; border-radius: 15px 15px 0 0;">
+                <h5 class="mb-0"><i class="fas fa-wallet"></i> Account Found</h5>
+            </div>
+            <div class="card-body" style="padding: 2rem;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5">Account Number:</dt>
+                            <dd class="col-sm-7"><strong>@account.AccountNumber</strong></dd>
+
+                            <dt class="col-sm-5">Account Name:</dt>
+                            <dd class="col-sm-7">@account.AccountName</dd>
+
+                            <dt class="col-sm-5">Account Holder:</dt>
+                            <dd class="col-sm-7">@account.Person.FirstName @account.Person.Surname</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5">Status:</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge" style="@(account.Status.StatusName == "Open" ? "background-color: #2F527A" : "background-color: #6c757d")">
+                                    @account.Status.StatusName
+                                </span>
+                            </dd>
+
+                            <dt class="col-sm-5">Balance:</dt>
+                            <dd class="col-sm-7">
+                                <strong class="@(account.OutstandingBalance >= 0 ? "text-success" : "text-danger")">
+                                    @account.OutstandingBalance.ToString("C2")
+                                </strong>
+                            </dd>
+
+                            <dt class="col-sm-5">Transactions:</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge" style="background-color: #2F527A">@account.Transactions.Count</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a asp-controller="Accounts" asp-action="Details" asp-route-id="@account.Id" 
+                       class="btn" style="background-color: #2F527A; color: white; border-radius: 10px;">
+                        <i class="fas fa-eye"></i> View Account Details
+                    </a>
+                    <a asp-controller="Persons" asp-action="Details" asp-route-id="@account.PersonId" 
+                       class="btn btn-secondary" style="border-radius: 10px;">
+                        <i class="fas fa-user"></i> View Person Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Persons List -->
+    <div class="card shadow mb-4" style="border-radius: 15px; border: none; background-color: white;">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center" style="background-color: white; border-bottom: 1px solid #e0e0e0;">
+            <h6 class="m-0 font-weight-bold" style="color: #2F527A">
+                <i class="fas fa-list"></i> 
+                @if (hasSearch)
+                {
+                    <span>Search Results (@Model.Count())</span>
+                }
+                else
+                {
+                    <span>All Persons (@Model.Count())</span>
+                }
+            </h6>
+        </div>
+        <div class="card-body" style="padding: 2rem;">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="personsTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Accounts</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var person in Model)
+                            {
+                                <tr>
+                                    <td>@person.IdNumber</td>
+                                    <td>
+                                        <strong>@person.FullName</strong>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(person.Email))
+                                        {
+                                            <a href="mailto:@person.Email" style="color: #2F527A">@person.Email</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/A</span>
+                                        }
+                                    </td>
+                                    <td>@(person.PhoneNumber ?? "N/A")</td>
+                                    <td>
+                                        <span class="badge" style="background-color: #2F527A">@person.AccountCount</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details" asp-route-id="@person.Id" 
+                                               class="btn btn-sm" style="background-color: #2F527A; color: white;" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@person.Id" 
+                                               class="btn btn-sm btn-warning" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@person.Id" 
+                                               class="btn btn-sm btn-danger" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                @if (hasSearch)
+                {
+                    <div class="alert alert-warning" role="alert" style="border-radius: 10px; border-left: 4px solid #f57c00;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <strong>No results found</strong> for "<strong>@searchTerm</strong>" in @searchType.
+                        <br />
+                        <small>Try a different search term or 
+                            <a asp-action="Index" class="alert-link" style="color: #f57c00;">view all persons</a>.
+                        </small>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert" style="border-radius: 10px; border-left: 4px solid #2F527A;">
+                        <i class="fas fa-info-circle"></i> No persons found. 
+                        <a asp-action="Create" class="alert-link" style="color: #2F527A;">Create the first person</a>.
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Optional: Add focus to search input on page load
+            $('#searchTerm').focus();
+        });
+    </script>
+}

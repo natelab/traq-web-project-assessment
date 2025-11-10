@@ -1,0 +1,175 @@
+﻿@model traq_web_project_assessment.ViewModels.PersonDetailsViewModel
+
+@{
+    ViewData["Title"] = "Person Details";
+}
+
+<div class="container" style="background-color: #e9ecef; padding: 40px; min-height: 100vh; border-radius: 15px;">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn btn-secondary" style="border-radius: 10px;">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header text-white" style="background-color: #2F527A; border-radius: 15px 15px 0 0;">
+                    <h5 class="mb-0"><i class="fas fa-user"></i> Person Information</h5>
+                </div>
+                <div class="card-body" style="padding: 1.5rem;">
+                    <h4 class="mb-3">@Model.Person.FirstName @Model.Person.Surname</h4>
+
+                    <div class="mb-3">
+                        <strong><i class="fas fa-id-card" style="color: #2F527A"></i> ID Number:</strong><br />
+                        <span class="text-muted">@Model.Person.IdNumber</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Person.Email))
+                    {
+                        <div class="mb-3">
+                            <strong><i class="fas fa-envelope" style="color: #2F527A"></i> Email:</strong><br />
+                            <a href="mailto:@Model.Person.Email" style="color: #2F527A">@Model.Person.Email</a>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Person.PhoneNumber))
+                    {
+                        <div class="mb-3">
+                            <strong><i class="fas fa-phone" style="color: #2F527A"></i> Phone:</strong><br />
+                            <span class="text-muted">@Model.Person.PhoneNumber</span>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Person.Address))
+                    {
+                        <div class="mb-3">
+                            <strong><i class="fas fa-map-marker-alt" style="color: #2F527A"></i> Address:</strong><br />
+                            <span class="text-muted">@Model.Person.Address</span>
+                        </div>
+                    }
+
+                    <hr />
+
+                    <div class="d-grid gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.Person.Id" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit Person
+                        </a>
+                        @if (Model.CanDelete)
+                        {
+                            <a asp-action="Delete" asp-route-id="@Model.Person.Id" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete Person
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger" disabled title="Cannot delete person with open accounts">
+                                <i class="fas fa-trash"></i> Delete Person (Disabled)
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow" style="border-radius: 15px; border: none; background-color: white;">
+                <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #2F527A; border-radius: 15px 15px 0 0;">
+                    <h5 class="mb-0"><i class="fas fa-wallet"></i> Accounts (@Model.Accounts.Count)</h5>
+                    @if (Model.CanAddAccount)
+                    {
+                        <a asp-controller="Accounts" asp-action="Create" asp-route-personId="@Model.Person.Id"
+                        class="btn btn-light btn-sm">
+                            <i class="fas fa-plus"></i> Add Account
+                        </a>
+                    }
+                </div>
+                <div class="card-body" style="padding: 1.5rem;">
+                    @if (Model.Accounts.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Account Number</th>
+                                        <th>Account Name</th>
+                                        <th>Status</th>
+                                        <th>Balance</th>
+                                        <th>Transactions</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var account in Model.Accounts)
+                                    {
+                                        <tr>
+                                            <td><strong>@account.AccountNumber</strong></td>
+                                            <td>@account.AccountName</td>
+                                            <td>
+                                                <span class="badge" style="@(account.Status.StatusName == "Open" ? "background-color: #2F527A" : "background-color: #6c757d")">
+                                                    @account.Status.StatusName
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <strong class="@(account.OutstandingBalance >= 0 ? "text-success" : "text-danger")">
+                                                    @account.OutstandingBalance.ToString("C2")
+                                                </strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge" style="background-color: #2F527A">@account.Transactions.Count</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a asp-controller="Accounts" asp-action="Details" asp-route-id="@account.Id"
+                                                    class="btn btn-sm" style="background-color: #2F527A; color: white;" title="View Details">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a asp-controller="Accounts" asp-action="Edit" asp-route-id="@account.Id"
+                                                    class="btn btn-sm btn-warning" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="card" style="background-color: #f8f9fa; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <h6>Total Accounts</h6>
+                                        <h3>@Model.Accounts.Count</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card" style="background-color: #f8f9fa; border-radius: 10px;">
+                                    <div class="card-body">
+                                        <h6>Total Balance</h6>
+                                        <h3 class="@(Model.Accounts.Sum(a => a.OutstandingBalance) >= 0 ? "text-success" : "text-danger")">
+                                            @Model.Accounts.Sum(a => a.OutstandingBalance).ToString("C2")
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info" role="alert" style="border-radius: 10px; border-left: 4px solid #2F527A;">
+                            <i class="fas fa-info-circle"></i> No accounts found for this person.
+                            @if (Model.CanAddAccount)
+                            {
+                                <a asp-controller="Accounts" asp-action="Create" asp-route-personId="@Model.Person.Id"
+                                class="alert-link" style="color: #2F527A;">Create the first account</a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

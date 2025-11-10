@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center mt-5" style="background-color: #e9ecef; padding: 40px; min-height: 100vh;">
+    <div class="jumbotron p-5 rounded" style="background-color: white;">
+        <i class="fa-solid fa-users-rectangle fa-5x mb-4" style="color: #2F527A"></i>
+        <h1 class="display-5" >Person Account Management System</h1>
+        <p class="lead">A newly developed solution for managing persons, accounts, and transactions</p>
+        <hr class="my-4">
+        <p>Manage customer information, track accounts, and monitor financial transactions in a  secure manner.</p>
+
+        <div class="mt-4">
+            <a class="btn btn-outline-primary btn-lg login-btn" asp-controller="Auth" asp-action="Login" role="button" style="color: #2F527A; border-color: #2F527A;">
+                <i class="fas fa-sign-in-alt"></i> Login to Get Started
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .login-btn:hover {
+            background-color: #C1D3E7 !important;
+            border-color: #2F527A !important;
+            color: #2F527A !important;
+        }
+    </style>
+
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x mb-3" style="color: #2F527A"></i>
+                    <h5 class="card-title">Person Management</h5>
+                    <p class="card-text">Create and manage person records with detailed contact information and validation.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fa-solid fa-hand-holding-dollar fa-3x mb-3" style="color: #2F527A"></i>
+                    <h5 class="card-title">Account Tracking</h5>
+                    <p class="card-text">Monitor multiple accounts per person with real-time balance tracking and status management.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-exchange-alt fa-3x mb-3" style="color: #2F527A"></i>
+                    <h5 class="card-title">Transaction Records</h5>
+                    <p class="card-text">Record and manage debit and credit transactions with comprehensive validation rules.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-shield-alt mb-3" style="color: #2F527A"></i> Secure & Validated</h5>
+                    <p class="card-text">Built with comprehensive validation rules and business logic to ensure data integrity.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-search text-primary"></i> Powerful Search</h5>
+                    <p class="card-text">Quickly find persons and accounts using ID Number, Surname, or Account Number.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

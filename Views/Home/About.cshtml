@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+
+<div class="container mt-4" style="background-color: #e9ecef; padding: 40px; min-height: 100vh; border-radius: 15px;">
+    <div style="background-color: white; padding: 40px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+        <div class="text-center mb-4">
+            <i class="fas fa-info-circle fa-4x mb-3" style="color: #2F527A"></i>
+            <h1 class="display-5">About This System</h1>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-8">
+                <h3>(PAT) Person, Accounts and Transactions Management System</h3>
+                <p class="lead">
+                    This is a web solution designed to manage people, their accounts 
+                    and financial transactions in an efficient and secure manner.
+                </p>
+
+                <h4 class="mt-4" style="color: #2F527A"><i class="fas fa-project-diagram"></i> Project Overview</h4>
+                <p>
+                    I developed this system as part of a technical skills assessment to demonstrate 
+                    skillset in ASP.NET Core MVC, Entity Framework Core, Microsoft SQL Server, and modern web development practices
+                    such as implementation of the SOLID principle.
+                </p>
+
+                <h4 class="mt-4" style="color: #2F527A"><i class="fas fa-star"></i> Key Features</h4>
+                <ul>
+                    <li><strong>Person Management:</strong> Create, edit, and manage the records of people</li>
+                    <li><strong>Account Management:</strong> Track multiple accounts per person with automatic balance calculations</li>
+                    <li><strong>Transaction Recording:</strong> Record debit and credit transactions along with their dates</li>
+                    <li><strong>Search Functionality:</strong> Find a person record using either their ID Number, Surname, or Account Number</li>
+                    <li><strong>Business Rules:</strong> Enforced validation rules to maintain data integrity</li>
+                    <li><strong>Secure Authentication:</strong> BCrypt password hashing for user security and privacy</li>
+                </ul>
+
+                <h4 class="mt-4" style="color: #2F527A"><i class="fas fa-code"></i> Technologies Used</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul>
+                            <li>ASP.NET Core MVC</li>
+                            <li>Entity Framework Core</li>
+                            <li>Microsoft SQL Server LocalDB</li>
+                            <li>Bootstrap 5</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li>BCrypt.Net (for stronger Password Hashing)</li>
+                            <li>SOLID Principles</li>
+                            <li>Repository Pattern</li>
+                            <li>Dependency Injection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="mt-4" style="color: #2F527A"><i class="fas fa-user-tie"></i> About the Developer</h4>
+                <p>
+                    This project was developed by Nathan Mazonde in a bid to showcase his skills in full-stack web development, 
+                    database design, and implemention of business logic in a real-world application scenario.
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-3" style="border-radius: 15px; border: none;">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-chart-line" style="color: #2F527A"></i> System Statistics</h5>
+                        @if (Context.Session.GetString("Username") != null)
+                        {
+                            <p><strong>Status:</strong> <span class="badge" style="background-color: #2F527A">Active</span></p>
+                            <p><strong>User:</strong> @Context.Session.GetString("FullName")</p>
+                        }
+                        else
+                        {
+                            <p><strong>Status:</strong> <span class="badge bg-secondary">Not Logged In</span></p>
+                        }
+                        <hr />
+                        <p><strong>Version:</strong> 1.0.0</p>
+                        <p><strong>Framework:</strong> .NET 8</p>
+                        <p><strong>Database:</strong> Microsoft SQL Server</p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm" style="border-radius: 15px; border: none;">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-book" style="color: #2F527A"></i> Documentation</h5>
+                        <p class="small">
+                            For detailed documentation, setup instructions, and API references; 
+                            please refer to the Documentation folder in the projects GitHub repository.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
