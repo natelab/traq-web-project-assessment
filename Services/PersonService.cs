@@ -90,29 +90,42 @@ namespace traq_web_project_assessment.Services
         {
             try
             {
-                
-				
-                if (!await CanDeletePersonAsync(id)) // Checking to see if person can be deleted
+                // Check if person can be deleted
+                if (!await CanDeletePersonAsync(id))
                 {
                     return false;
                 }
 
-                var person = await _context.Persons.FindAsync(id);
+                var person = await _context.Persons
+                    .Include(p => p.Accounts) // Important: Include accounts
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
                 if (person == null)
                 {
                     return false;
                 }
 
+                // If person has closed accounts, delete them first
+                if (person.Accounts.Any())
+                {
+                    _context.Accounts.RemoveRange(person.Accounts);
+                }
+
+                // Then delete the person
                 _context.Persons.Remove(person);
                 await _context.SaveChangesAsync();
+
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                // Log the error 
                 return false;
             }
         }
 
+        //Deletion can only happen if there are no accounts or
+        //All accounts have been closed
         public async Task<bool> CanDeletePersonAsync(int id)
         {
             var person = await _context.Persons
@@ -125,11 +138,16 @@ namespace traq_web_project_assessment.Services
                 return false;
             }
 
-            //Deletion can only happen if there are no accounts or
-            //All accounts have been closed
-           
-            return !person.Accounts.Any() ||
-                   person.Accounts.All(a => a.Status.StatusName == "Closed");
+            // Can delete if no accounts exist
+            if (!person.Accounts.Any())
+            {
+                return true;
+            }
+
+            // Can delete if ALL the accounts have a StatusId equal to 2 (Closed)
+            bool allAccountsClosed = person.Accounts.All(a => a.StatusId == 2);
+
+            return allAccountsClosed;
         }
 
         public async Task<bool> IdNumberExistsAsync(string idNumber, int? excludePersonId = null)
